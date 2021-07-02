@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GitHubRepo</string>
+    <string name="select_color">Select Color</string>
+    <string name="select_size">Select Size</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="share">Share</string>
+    <string name="description">Description</string>
+    <string name="composition">Composition and care</string>
+    <string name="morefromzara">More From Zara</string>
+    <string name="addToBag">Add To Bag</string>
+</resources>
