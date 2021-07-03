@@ -26,7 +26,6 @@ class RepoAdapter(val arrayList: ArrayList<RepoDetail>, val context: Context) :
         return MyViewHolder(view, mOnItemClickListener)
     }
     fun setItems(items: ArrayList<RepoDetail>) {
-        Log.d("Test: adapter: ",""+items.size)
         this.arrayList.clear()
         this.arrayList.addAll(items)
         notifyDataSetChanged()
@@ -50,20 +49,19 @@ class RepoAdapter(val arrayList: ArrayList<RepoDetail>, val context: Context) :
         model.description?.let {
             holder.desc.setText(it)
         }
-       /* model.sourceName?.let {
-            holder.author.setText(model.sourceName)
+        model.createdAt?.let {
+            holder.item_time.setText(" \u2022 " + Utils.DateToTimeFormat(it))
         }
-        model.publishedAt?.let {
-            holder.time.setText(" \u2022 " + Utils.DateToTimeFormat(model.publishedAt))
+        model.language?.let {
+            holder.item_likes.setText(it)
+        }?:kotlin.run {
+            holder.item_likes.setVisibility(View.GONE)
+            holder.item_img_language.setVisibility(View.GONE)
         }
-        model.publishedAt?.let {
-            holder.published_ad.setText(Utils.DateFormat(model.publishedAt))
-        }*/
-
     }
 
     override fun getItemCount(): Int {
-        return arrayList!!.size
+        return arrayList.size
     }
 
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
@@ -81,7 +79,7 @@ class RepoAdapter(val arrayList: ArrayList<RepoDetail>, val context: Context) :
         var item_time = itemView.item_time
         var item_likes = itemView.item_likes
         var imageView = itemView.item_profile_img
-        var imageViewlg = itemView.item_img_language
+        var item_img_language = itemView.item_img_language
         lateinit var onItemClickListener: OnItemClickListener
         override fun onClick(v: View) {
             onItemClickListener.onItemClick(v, getAdapterPosition())

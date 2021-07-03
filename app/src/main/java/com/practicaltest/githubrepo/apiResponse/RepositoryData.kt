@@ -1,4 +1,4 @@
-package com.practicaltest.githubrepo.repository
+package com.practicaltest.githubrepo.apiResponse
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty

@@ -1,4 +1,4 @@
-package com.practicaltest.githubrepo.repository
+package com.practicaltest.githubrepo.apiResponse
 
 
 

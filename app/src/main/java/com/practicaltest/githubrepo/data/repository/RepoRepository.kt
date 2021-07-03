@@ -4,25 +4,29 @@ import android.util.Log
 import com.practicaltest.githubrepo.data.entities.RepoDetail
 import com.practicaltest.githubrepo.data.local.RepoDetailDao
 import com.practicaltest.githubrepo.data.remote.RepoRemoteDataSource
-import com.practicaltest.githubrepo.repository.Item
+import com.practicaltest.githubrepo.apiResponse.Item
 import com.practicaltest.githubrepo.utils.RepoListModel
 import com.practicaltest.githubrepo.utils.performGetOperation
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class RepoRepository @Inject constructor(
     private val remoteDataSource: RepoRemoteDataSource,
     private val repoDetailDao: RepoDetailDao
 ) {
+    suspend fun saveDataIntoDB(repoListModel: RepoListModel) {
+        repoDetailDao.insertAll(repoListModel.repoItemList)
+    }
 
-    fun getNewsDetails(page: Long) = performGetOperation(
+
+    fun getNewsDetails(page: Long, flag: Boolean) = performGetOperation(
         databaseQuery = { repoDetailDao.getAllUserDataItem() },
         networkCall = { remoteDataSource.fetchRepositories(page) },
         saveCallResult = {
             it.items?.let { it1 ->
-                Log.d("Test nwsize: ", "" + it1.size)
-
+                Log.d("Test: mainnwsize: ", "" + it1.size)
                 val list = getNewsDBList(it1)
-                repoDetailDao.insertAll(list.repoItemList)
+                saveDataIntoDB(list)
             }
         }
     )
@@ -49,7 +53,6 @@ class RepoRepository @Inject constructor(
                 )
             )
         }
-        Log.d("Test dbsize: ", "" + newsList.size)
         return RepoListModel(newsList)
 
     }

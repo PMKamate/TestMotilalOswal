@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.practicaltest.githubrepo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".MainApplication"
+        android:name=".RepoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,6 +24,12 @@
         <activity
             android:name=".activity.RepoDetailsActivityWeb"
             android:theme="@style/Theme.DarkActionBar" />
+
+       <!-- <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:exported="false"
+            tools:node="remove"/>-->
     </application>
 
 </manifest>

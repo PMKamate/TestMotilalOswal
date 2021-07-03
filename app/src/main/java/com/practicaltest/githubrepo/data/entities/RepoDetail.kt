@@ -6,10 +6,9 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "repoDetails")
-class RepoDetail(
-    @NonNull
-    @PrimaryKey
-    val id: Int? = null,
+data class RepoDetail(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
     val name: String? = null,
     val fullName: String? = null,
     val htmlUrl: String? = null,
