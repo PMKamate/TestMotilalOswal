@@ -6,10 +6,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.practicaltest.githubrepo.data.repository.RepoRepository
 import com.practicaltest.githubrepo.apiResponse.RepositoryData
 import com.practicaltest.githubrepo.utils.AppConstants
 import com.rx2androidnetworking.Rx2AndroidNetworking
+import dagger.android.ContributesAndroidInjector
+import dagger.android.HasAndroidInjector
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
@@ -18,26 +19,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class SyncWorker @Inject constructor(val context: Context, workParams: WorkerParameters) :
-    Worker(context, workParams) {
+object ContextInjection {
+    @JvmStatic
+    fun inject(to: Any, with: Context) {
+        (with.applicationContext as HasAndroidInjector).androidInjector().inject(to)
+    }
+}
 
-    /*@Inject
-    lateinit var repository: RepoRepository*/
-    @Inject lateinit var repository: RepositoryWorker
+class DaggerAndroidWorker(
+   private var context: Context,
+    params: WorkerParameters
+) : Worker(context, params) {
+
+    @Inject
+    lateinit var repository: RepositoryWorker
 
     init {
-        Provider.appComponent?.inject(this)
+        ContextInjection.inject(to = this, with = context)
     }
 
     override fun doWork(): Result {
-        return try {
-            Log.d("Test: ", " doWork called: ")
-            getNewsDetails(1L, context)
-        } catch (e: Exception) {
-            Result.failure()
-        }
+       Log.d("Test", "Injected repository: $repository")
+        getNewsDetails(1L, context)
+        return Result.success()
     }
 
+
+    @dagger.Module
+    interface Module {
+        @ContributesAndroidInjector
+        fun worker(): DaggerAndroidWorker
+    }
     @SuppressLint("CheckResult")
     fun getNewsDetails(page: Long, context: Context): Result {
         var result: Result = Result.failure()
@@ -53,18 +65,14 @@ class SyncWorker @Inject constructor(val context: Context, workParams: WorkerPar
             .subscribe({
                 Toast.makeText(context, "Background sync service called ", Toast.LENGTH_SHORT).show()
                 it.items?.let { it1 ->
-                    Log.d("Test: workersize: ", "" + it1.size  )
                     val list = repository.repoRepository.getNewsDBList(it1)
                     GlobalScope.launch(Dispatchers.IO) {
-                        Log.d("Test: ", " worker: " + list)
                         repository.repoRepository.saveDataIntoDB(list)
                     }
 
                 }
-                Log.d("Test: ", " worker: " + it.items?.size)
                 result = Result.success()
             }, {
-                Log.d("Test: ", " exception: " + it)
                 result = Result.failure()
 
             })

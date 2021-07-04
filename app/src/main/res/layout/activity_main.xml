@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.practicaltest.githubrepo.activity.MainViewModel" />
+            type="com.practicaltest.githubrepo.activity.main.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.practicaltest.githubrepo.activity
+package com.practicaltest.githubrepo.activity.main
 
 import androidx.lifecycle.LiveData
 import com.practicaltest.githubrepo.data.entities.RepoDetail
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class MainViewModel @Inject internal constructor(
     repository: RepoRepository
-) : BaseViewModel<MainLoginNavigator>(repository = repository) {
+) : BaseViewModel<MainNavigator>(repository = repository) {
     fun getNewsDetails(page: Long): LiveData<Resource<List<RepoDetail>>> {
         return repository.getNewsDetails(page, false)
     }

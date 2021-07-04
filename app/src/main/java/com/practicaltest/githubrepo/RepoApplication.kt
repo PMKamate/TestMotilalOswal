@@ -12,7 +12,7 @@ import javax.inject.Inject
 class RepoApplication : MultiDexApplication(), HasAndroidInjector, LifecycleObserver {
 
     @Inject
-    lateinit internal var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+    internal lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun androidInjector() = activityDispatchingAndroidInjector
 

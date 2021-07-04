@@ -2,15 +2,11 @@ package com.practicaltest.githubrepo.di.module
 
 import android.app.Application
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.practicaltest.githubrepo.data.local.AppDatabase
 import com.practicaltest.githubrepo.data.local.RepoDetailDao
 import com.practicaltest.githubrepo.data.remote.NewsService
 import com.practicaltest.githubrepo.data.remote.RepoRemoteDataSource
 import com.practicaltest.githubrepo.data.repository.RepoRepository
-import com.practicaltest.githubrepo.workmanger.RepositoryWorker
-import com.practicaltest.githubrepo.workmanger.SaveRepoRepository
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -28,9 +24,6 @@ class AppModule {
         .addConverterFactory(JacksonConverterFactory.create())
         .build()
 
-
-    @Provides
-    fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
     fun provideJackSon(): JacksonConverterFactory = JacksonConverterFactory.create()
@@ -68,19 +61,5 @@ class AppModule {
         repoDetailDao: RepoDetailDao
     ) =
         RepoRepository(remoteDataSource, repoDetailDao)
-
-   /* @Singleton
-    @Provides
-    fun provideSaveRepository(
-        repoDetailDao: RepoDetailDao
-    ) =
-        SaveRepoRepository(repoDetailDao)*/
-
-   /* @Singleton
-    @Provides
-    fun provideSaveRepository(
-        saveRepoRepository: SaveRepoRepository
-    ) =
-        RepositoryWorker(saveRepoRepository)*/
 
 }

@@ -14,7 +14,6 @@ class SaveRepoRepository @Inject constructor(
     private val appDatabase: AppDatabase
     ) {
     suspend fun saveDataIntoDB(repoListModel: RepoListModel) {
-        Log.d("Test: ", "SaveRepoRepository called: ")
         appDatabase.repoDetailDao().insertAll(repoListModel.repoItemList)
     }
     fun getNewsDBList(itemList: List<Item?>): RepoListModel {
@@ -39,7 +38,8 @@ class SaveRepoRepository @Inject constructor(
                 )
             )
         }
-        Log.d("Test SaveRepodbsize: ", "" + newsList.size)
+        Log.d("Test", "worker list: "+newsList.size)
+
         return RepoListModel(newsList)
 
     }

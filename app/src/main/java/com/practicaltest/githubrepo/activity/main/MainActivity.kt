@@ -1,8 +1,7 @@
-package com.practicaltest.githubrepo.activity
+package com.practicaltest.githubrepo.activity.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -11,19 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.*
 import com.practicaltest.githubrepo.BR
 import com.practicaltest.githubrepo.R
+import com.practicaltest.githubrepo.activity.detail.RepoDetailsActivityWeb
 import com.practicaltest.githubrepo.adapter.RepoAdapter
 import com.practicaltest.githubrepo.data.entities.RepoDetail
 import com.practicaltest.githubrepo.databinding.ActivityMainBinding
 import com.practicaltest.githubrepo.factory.ViewModelProviderFactory
 import com.practicaltest.githubrepo.ui.base.BaseActivity
 import com.practicaltest.githubrepo.utils.Resource
-import com.practicaltest.githubrepo.workmanger.SyncWorker
+import com.practicaltest.githubrepo.workmanger.DaggerAndroidWorker
 import kotlinx.android.synthetic.main.activity_recycleview.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
-    MainLoginNavigator {
+    MainNavigator {
 
     @Inject
     lateinit var factory: ViewModelProviderFactory
@@ -39,7 +39,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setupObservers()
+        setupObservers()
         setAdapter()
         setRVLayoutManager()
         initListener()
@@ -89,7 +89,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
         val periodicSyncDataWork =
-            PeriodicWorkRequest.Builder(SyncWorker::class.java, 15, TimeUnit.MINUTES)
+            PeriodicWorkRequest.Builder(DaggerAndroidWorker::class.java, 15, TimeUnit.MINUTES)
                 .addTag(SYNC_WORK)
                 .setConstraints(constraints) // setting a backoff on case the work needs to retry
                 .setBackoffCriteria(
@@ -106,6 +106,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
        /* WorkManager.getInstance(this).enqueue(
             OneTimeWorkRequestBuilder<SyncWorker>().build()
         )*/
+
     }
 
     private fun setupObservers() {

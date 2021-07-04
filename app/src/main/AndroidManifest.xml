@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.practicaltest.githubrepo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -14,22 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DarkActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.RepoDetailsActivityWeb"
+            android:name=".activity.detail.RepoDetailsActivityWeb"
             android:theme="@style/Theme.DarkActionBar" />
-
-       <!-- <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            android:exported="false"
-            tools:node="remove"/>-->
     </application>
 
 </manifest>
